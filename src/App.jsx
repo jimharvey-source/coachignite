@@ -516,13 +516,20 @@ CADENCE (use exactly):
 - Manager note: ${c.managerNote}
 - Person note: ${c.delegateeNote}
 
+OUTPUT RULES (apply to every section below, without exception):
+- Plain text only. No markdown of any kind. No asterisks for bold or emphasis, no ## or ### headings, no hyphen, asterisk, or bullet lists, no backticks. Where you work through the GROW stages, label each one in plain text followed by a colon, exactly like this: "Goal: ..." then "Reality: ..." then "Options: ..." then "Will: ...". Never put asterisks or bold around the GROW labels or any other heading. For lists of questions, write them as a simple numbered list ("1. ... 2. ...") in plain text.
+- No exclamation marks anywhere.
+- No rallying-cry or cheerleading closings. Do not end on lines like "you've got this", "you'll smash it", or "I believe in you". Close on something concrete: the next step, or when the next conversation will be.
+- UK English throughout. Plain, direct, warm. Active voice.
+- Write to and about ${form.personName} by first name. Do not feed evaluative ratings back to the reader: never write "your low confidence" or "given your medium skill". Write the implication instead.
+
 YOUR RESPONSE MUST USE EXACTLY THIS FORMAT:
 
 COACHING_APPROACH: [One sentence — the single most important thing for ${form.managerName} to hold in mind going into this conversation.]
 
 CONVERSATION_GUIDE: [A structured coaching guide for ${form.managerName}. Begin with the two fixed principles (advance notice; ask first). Then work through GROW: for each stage, give 3–4 specific, open questions tailored to this topic and this person's profile. After the Will section, include a commitment check: ask them on a scale of 1–10 how committed they are. If the answer is below 7, instruct the manager to go back to Options — something is unresolved. Practical, direct, minimum 450 words.]
 
-DEVELOPMENT_SUMMARY: [A post-session summary written for ${form.personName} to receive after the conversation. Written in ${form.managerName}'s voice. Covers: what was discussed, what was agreed, what ${form.personName} has committed to, and when the next conversation will be. Warm, clear, professional. Leave blank fields in [square brackets] for what was actually agreed — e.g. [agreed actions], [by when], [next session date]. Minimum 200 words.]`;
+DEVELOPMENT_SUMMARY: [A post-session summary written for ${form.personName} to receive after the conversation. Written in ${form.managerName}'s voice. Covers: what was discussed, what was agreed, what ${form.personName} has committed to, and when the next conversation will be. Warm and plain — the warmth comes from being specific and genuine, not from praise or encouragement. This summary is written before the conversation happens, so deliberately leave blank fields for the things that can only be filled in afterwards: write them as plain square brackets, for example [agreed actions], [by when], [next session date]. These blanks are intentional and the manager completes them after the session — do not invent or guess them. Keep the brackets as plain text with no asterisks or formatting. Minimum 200 words.]`;
   };
 
   const generate = async () => {
