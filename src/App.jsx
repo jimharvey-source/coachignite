@@ -5,6 +5,8 @@ import {
   loadPerson,
   hasSuiteAccess,
   saveToolSession,
+  sourceSessionIdFromUrl,
+  loadSession,
 } from "./mi-session.js";
 
 const supabase = createSuiteClient({
@@ -414,6 +416,7 @@ export default function CoachIgnite() {
   const [result, setResult] = useState(null);
   const [person, setPerson] = useState(null);
   const [saveState, setSaveState] = useState("idle");
+  const [fromSession, setFromSession] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showUpgrade, setShowUpgrade] = useState(false);
@@ -450,6 +453,19 @@ export default function CoachIgnite() {
     (async () => {
       const paid = await hasSuiteAccess(supabase);
       if (!cancelled && paid) setIsPro(true);
+
+      // A session handed across from another tool. Feedback sends the
+      // development point here so the coaching starts from it.
+      const from = await loadSession(supabase, sourceSessionIdFromUrl());
+      if (!cancelled && from) {
+        setFromSession(from);
+        const note = from.outputs?.output || from.outputs?.briefingNote || "";
+        setForm(prev => ({
+          ...prev,
+          context: prev.context || note,
+          coachingTopic: prev.coachingTopic || (from.title ? `Following ${from.title}` : ""),
+        }));
+      }
 
       const p = await loadPerson(supabase, personIdFromUrl());
       if (cancelled || !p) return;
@@ -629,6 +645,7 @@ DEVELOPMENT_SUMMARY: [A post-session summary written for ${form.personName} to r
     const { error: saveError } = await saveToolSession(supabase, {
       tool: "coach",
       personId: person.id,
+      sourceSessionId: fromSession?.id || null,
       title: result.coachingTopic,
       inputs: form,
       outputs: {
