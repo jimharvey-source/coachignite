@@ -7,6 +7,7 @@ import {
   saveToolSession,
   sourceSessionIdFromUrl,
   loadSession,
+  parseSharpened,
 } from "./mi-session.js";
 
 const supabase = createSuiteClient({
@@ -527,7 +528,7 @@ A topic is SPECIFIC ENOUGH if it describes a clear situation, behaviour, or deve
 Respond in EXACTLY this format:
 STATUS: [PASS or FAIL]
 REASON: [One plain sentence.]
-SHARPENED: [If FAIL, rewrite as a specific coaching topic. If PASS, repeat original unchanged.]`;
+SHARPENED: [If FAIL, rewrite as a specific coaching topic, one sentence at most. If PASS, repeat original unchanged. Write nothing after it.]`;
 
   const buildPrompt = (topic) => {
     const zone = getChallengeZone(form.skillLevel, form.confidenceLevel);
@@ -595,7 +596,7 @@ DEVELOPMENT_SUMMARY: [A post-session summary written for ${form.personName} to r
         const text = d.choices?.[0]?.message?.content || "";
         const status = (text.match(/STATUS:\s*(PASS|FAIL)/i)?.[1] || "PASS").toUpperCase();
         const reason = text.match(/REASON:\s*(.+)/i)?.[1]?.trim() || "";
-        const sharpened = text.match(/SHARPENED:\s*([\s\S]+)/i)?.[1]?.trim() || form.coachingTopic;
+        const sharpened = parseSharpened(text, form.coachingTopic, 250);
         if (status === "PASS") { setSharpenedTopic(form.coachingTopic); setTopicAccepted(true); await runGenerate(form.coachingTopic); }
         else { setTopicCheck({ reason, sharpened }); setSharpenedTopic(sharpened); setLoading(false); }
       } catch { setError("Something went wrong. Please try again."); setLoading(false); }
