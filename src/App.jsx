@@ -86,49 +86,49 @@ function getChallengeZone(skillLevel, confidenceLevel) {
     zone: "Growth Zone",
     color: COLORS.green, colorLight: COLORS.greenLight, icon: "✅",
     summary: "Strong capability but not fully confident in it. Your coaching should surface the evidence of their competence and help them trust what they already know.",
-    managerGuidance: "Focus on building confidence through evidence. Remind them of past successes. Ask them what they would advise someone else in this situation — they usually know the answer.",
+    managerGuidance: "Focus on building confidence through evidence. Remind them of past successes. Ask them what they would advise someone else in this situation: they usually know the answer.",
     supportLevel: "Moderate support. Regular check-ins focused on reinforcing capability."
   };
   if (medSkill && medConf) return {
     zone: "Growth Zone",
     color: COLORS.green, colorLight: COLORS.greenLight, icon: "📈",
-    summary: "Building capability with reasonable confidence. Good coaching territory — they are open to learning and have enough confidence to engage honestly with development areas.",
-    managerGuidance: "Balance challenge with support. Introduce stretch gradually. Use the GROW sequence carefully — ensure they leave each conversation with clarity and commitment, not just a list of things to improve.",
+    summary: "Building capability with reasonable confidence. Good coaching territory: they are open to learning and have enough confidence to engage honestly with development areas.",
+    managerGuidance: "Balance challenge with support. Introduce stretch gradually. Use the GROW sequence carefully: ensure they leave each conversation with clarity and commitment, not just a list of things to improve.",
     supportLevel: "Regular structured support. Fortnightly coaching conversations."
   };
   if (lowSkill && highConf) return {
     zone: "Danger Zone",
     color: COLORS.red, colorLight: "#FEF2F2", icon: "⚠️",
-    summary: "High confidence masking genuine skill gaps is one of the most delicate coaching situations. They may not fully see the gap — or may be defensive about it. Handle with care.",
+    summary: "High confidence masking genuine skill gaps is one of the most delicate coaching situations. They may not fully see the gap, or may be defensive about it. Handle with care.",
     managerGuidance: "Do not let confidence do the work of competence. Create space for honest reflection without deflating them. Use reality-checking questions carefully. Agree specific, measurable development steps.",
     supportLevel: "Intensive coaching. Weekly sessions with clear milestones and agreed measures of progress."
   };
   if (lowSkill && lowConf) return {
     zone: "Danger Zone",
     color: COLORS.red, colorLight: "#FEF2F2", icon: "⚠️",
-    summary: "Low skill and low confidence together require careful, structured support. This person needs both practical capability-building and consistent encouragement — in that order.",
-    managerGuidance: "Start with small, achievable wins. Build confidence through success before raising the bar. Coaching questions need to be carefully chosen — open-ended questions can feel overwhelming at this stage. Be more directive than usual.",
+    summary: "Low skill and low confidence together require careful, structured support. This person needs both practical capability-building and consistent encouragement: in that order.",
+    managerGuidance: "Start with small, achievable wins. Build confidence through success before raising the bar. Coaching questions need to be carefully chosen: open-ended questions can feel overwhelming at this stage. Be more directive than usual.",
     supportLevel: "Intensive support. Weekly sessions, very clear actions, short feedback loops."
   };
   if (lowSkill && medConf) return {
     zone: "Moderate Challenge",
     color: COLORS.amber, colorLight: COLORS.amberLight, icon: "📊",
-    summary: "Developing skill with reasonable confidence. Good foundation for coaching — they are willing but need structured support to build the right capabilities.",
-    managerGuidance: "Focus on one development area at a time. Use GROW to build clear action plans. Celebrate progress visibly — it reinforces the link between effort and improvement.",
+    summary: "Developing skill with reasonable confidence. Good foundation for coaching: they are willing but need structured support to build the right capabilities.",
+    managerGuidance: "Focus on one development area at a time. Use GROW to build clear action plans. Celebrate progress visibly: it reinforces the link between effort and improvement.",
     supportLevel: "Regular support. Weekly or fortnightly coaching with structured action review."
   };
   if (highSkill && lowConf) return {
     zone: "Coasting",
     color: COLORS.amber, colorLight: COLORS.amberLight, icon: "😐",
-    summary: "High skill, low confidence — often the most frustrating combination for a manager to witness. This person is capable of far more than they are doing. The blocker is internal.",
-    managerGuidance: "The coaching here is entirely confidence-focused. Surface evidence of their competence. Ask them what they notice about their own performance. Avoid over-praising — instead, help them develop their own accurate self-assessment.",
+    summary: "High skill, low confidence: often the most frustrating combination for a manager to witness. This person is capable of far more than they are doing. The blocker is internal.",
+    managerGuidance: "The coaching here is entirely confidence-focused. Surface evidence of their competence. Ask them what they notice about their own performance. Avoid over-praising, instead, help them develop their own accurate self-assessment.",
     supportLevel: "Focused support. Regular coaching conversations centred on confidence and self-belief."
   };
   return {
     zone: "Moderate Challenge",
     color: COLORS.amber, colorLight: COLORS.amberLight, icon: "📊",
-    summary: "A mixed profile — some capability, some confidence. The right coaching approach depends on which factor is the limiting one. Explore both before settling on an approach.",
-    managerGuidance: "Start by establishing which factor — skill or confidence — is the main limiter right now. Then direct your coaching questions accordingly.",
+    summary: "A mixed profile: some capability, some confidence. The right coaching approach depends on which factor is the limiting one. Explore both before settling on an approach.",
+    managerGuidance: "Start by establishing which factor (skill or confidence) is the main limiter right now. Then direct your coaching questions accordingly.",
     supportLevel: "Regular structured support. Fortnightly coaching conversations."
   };
 }
@@ -146,28 +146,28 @@ function getCadenceGuidance(skillLevel, confidenceLevel, coachingGoal) {
     format: "Structured 30-minute conversation with agreed actions and written follow-up",
     rationale: "Developing skill or confidence requires consistent contact. Weekly sessions catch problems early and ensure momentum is maintained between conversations.",
     managerNote: "Book weekly 30-minute sessions. Come prepared with 2–3 coaching questions focused on progress, blockers, and next steps. Keep a brief written record of what was agreed.",
-    delegateeNote: "I would like us to meet weekly while you are working through this — 30 minutes, with a brief update from you beforehand covering what progress you have made and what you would like to think through together."
+    delegateeNote: "I would like us to meet weekly while you are working through this: 30 minutes, with a brief update from you beforehand covering what progress you have made and what you would like to think through together."
   };
   if (highSkill && highConf) return {
     frequency: "Monthly coaching conversation",
     format: "60-minute development conversation with written reflection beforehand",
     rationale: "A highly capable, confident person does not need close coaching oversight. Monthly gives space for genuine reflection and keeps the development relationship alive without becoming management.",
-    managerNote: "Monthly sessions — 60 minutes, with a written reflection from them in advance. Focus on bigger questions: what are they learning, where are they heading, what would they want to be doing differently in twelve months?",
-    delegateeNote: "I would like a monthly conversation — not a progress check, a development conversation. I will ask you to send a brief written reflection beforehand so we can use the time well."
+    managerNote: "Monthly sessions: 60 minutes, with a written reflection from them in advance. Focus on bigger questions: what are they learning, where are they heading, what would they want to be doing differently in twelve months?",
+    delegateeNote: "I would like a monthly development conversation. I will ask you to send a brief written reflection beforehand so we can use the time well."
   };
   if (coachingGoal === "reflection") return {
     frequency: "Single structured debrief session",
     format: "60-minute post-event coaching conversation",
     rationale: "Reflective coaching after a significant event requires depth rather than frequency. One well-structured session with the right questions produces more learning than several brief check-ins.",
     managerNote: "Book a 60-minute session within a week of the event. Come with GROW questions prepared. The goal is insight and commitment, not evaluation.",
-    delegateeNote: "I would like to set aside 60 minutes to think through what happened together. This is not a review — it is a conversation to help you extract the learning."
+    delegateeNote: "I would like to set aside 60 minutes to think through what happened together. The conversation is there to help you draw out the learning."
   };
   return {
     frequency: "Fortnightly coaching check-in",
     format: "30-minute structured conversation with brief written update beforehand",
     rationale: "Fortnightly contact maintains momentum and gives enough space between sessions for real progress to occur. It is close enough to catch problems early without feeling like surveillance.",
     managerNote: "Fortnightly 30-minute sessions. Ask for a brief written update beforehand: what progress, what blockers, what they want to think through. Use the session to coach, not to report.",
-    delegateeNote: "I would like a brief update from you a day before each fortnightly session — what progress you have made, what is getting in the way, and what you would like to work through together."
+    delegateeNote: "I would like a brief update from you a day before each fortnightly session: what progress you have made, what is getting in the way, and what you would like to work through together."
   };
 }
 
@@ -191,7 +191,7 @@ function generateICS({ coachingTopic, personName, managerName, cadence }) {
     "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//The Message Business//CoachIgnite//EN",
     "CALSCALE:GREGORIAN","METHOD:PUBLISH","BEGIN:VEVENT",
     `UID:coachignite-${Date.now()}@themessagebusiness.com`,
-    `SUMMARY:Coaching: ${coachingTopic} — ${personName}`,
+    `SUMMARY:Coaching: ${coachingTopic}, ${personName}`,
     `DTSTART:${fmt(start)}`,`DTEND:${fmt(end)}`,
     `DESCRIPTION:${cadence.managerNote.replace(/\n/g,"\\n")}`,
     `ORGANIZER;CN=${managerName}:mailto:organizer@coachignite.app`,
@@ -486,7 +486,12 @@ export default function CoachIgnite() {
       const from = await loadSession(supabase, sourceSessionIdFromUrl());
       if (!cancelled && from) {
         setFromSession(from);
-        const note = from.outputs?.output || from.outputs?.briefingNote || "";
+        // The manager's own notes, not the letter written from them: the letter carries a
+        // salutation and a sign-off, and the coaching needs the facts behind it.
+        const notes = from.inputs?.inputText || from.inputs?.taskDescription || "";
+        const note = notes
+          ? `From your ${from.tool === "feedback" ? "feedback" : "earlier"} notes: ${notes.trim()}`
+          : (from.outputs?.output || from.outputs?.briefingNote || "");
         setForm(prev => ({
           ...prev,
           context: prev.context || note,
@@ -579,11 +584,11 @@ CHALLENGE / SUPPORT ZONE:
 COACHING GOAL DEFINITIONS:
 - Awareness: Help the person understand their own strengths, gaps, or blind spots more clearly.
 - Commitment: Help the person who knows what to do but isn't doing it to commit to action.
-- Reflection: Post-event debrief — extract learning from something that has already happened.
+- Reflection: Post-event debrief: extract learning from something that has already happened.
 
 FIXED COACHING PRINCIPLES (always include both in the conversation guide):
-1. Give the person advance notice of the topic before the conversation — never ambush with developmental feedback.
-2. Ask for their view before sharing yours — good people are usually harder on themselves than you would be.
+1. Give the person advance notice of the topic before the conversation: never ambush with developmental feedback.
+2. Ask for their view before sharing yours: good people are usually harder on themselves than you would be.
 
 CADENCE (use exactly):
 - Frequency: ${c.frequency}
@@ -593,7 +598,7 @@ CADENCE (use exactly):
 - Person note: ${c.delegateeNote}
 
 OUTPUT RULES (apply to every section below, without exception):
-- Plain text only. No markdown of any kind. No asterisks for bold or emphasis, no ## or ### headings, no hyphen, asterisk, or bullet lists, no backticks. Where you work through the GROW stages, label each one in plain text followed by a colon, exactly like this: "Goal: ..." then "Reality: ..." then "Options: ..." then "Will: ...". Never put asterisks or bold around the GROW labels or any other heading. For lists of questions, write them as a simple numbered list ("1. ... 2. ...") in plain text.
+- Plain text only. No markdown of any kind. No asterisks for bold or emphasis, no ## or ### headings, no hyphen, asterisk, or bullet lists, no backticks. Where you work through the GROW stages, label each one in plain text followed by a colon, exactly like this: "Goal: ..." then "Reality: ..." then "Options: ..." then "Will: ...". Never put asterisks or bold around the GROW labels or any other heading. For lists of questions, write them as a simple numbered list ("1. ... 2. ...") in plain text. End every question with a question mark.
 - No exclamation marks anywhere.
 - No rallying-cry or cheerleading closings. Do not end on lines like "you've got this", "you'll smash it", or "I believe in you". Close on something concrete: the next step, or when the next conversation will be.
 - UK English throughout. Plain, direct, warm. Active voice.
@@ -602,11 +607,11 @@ OUTPUT RULES (apply to every section below, without exception):
 
 YOUR RESPONSE MUST USE EXACTLY THIS FORMAT:
 
-COACHING_APPROACH: [One sentence — the single most important thing for ${form.managerName} to hold in mind going into this conversation.]
+COACHING_APPROACH: [One sentence: the single most important thing for ${form.managerName} to hold in mind going into this conversation.]
 
-CONVERSATION_GUIDE: [A structured coaching guide for ${form.managerName}. Begin with the two fixed principles (advance notice; ask first). Then work through GROW: for each stage, give 3–4 specific, open questions tailored to this topic and this person's profile. After the Will section, include a commitment check: ask them on a scale of 1–10 how committed they are. If the answer is below 7, instruct the manager to go back to Options — something is unresolved. Practical, direct, minimum 450 words.]
+CONVERSATION_GUIDE: [A structured coaching guide for ${form.managerName}. Begin with the two fixed principles (advance notice; ask first). Then work through GROW: for each stage, give 3–4 specific, open questions tailored to this topic and this person's profile. After the Will section, include a commitment check: ask them on a scale of 1–10 how committed they are. If the answer is below 7, instruct the manager to go back to Options: something is unresolved. Practical, direct, minimum 450 words.]
 
-DEVELOPMENT_SUMMARY: [A post-session summary written for ${form.personName} to receive after the conversation. Written in ${form.managerName}'s voice. Covers: what was discussed, what was agreed, what ${form.personName} has committed to, and when the next conversation will be. Warm and plain — the warmth comes from being specific and genuine, not from praise or encouragement. This summary is written before the conversation happens, so deliberately leave blank fields for the things that can only be filled in afterwards: write them as plain square brackets, for example [agreed actions], [by when], [next session date]. These blanks are intentional and the manager completes them after the session — do not invent or guess them. Keep the brackets as plain text with no asterisks or formatting. Minimum 200 words.]`;
+DEVELOPMENT_SUMMARY: [A post-session summary written for ${form.personName} to receive after the conversation. Written in ${form.managerName}'s voice. Covers: what was discussed, what was agreed, what ${form.personName} has committed to, and when the next conversation will be. Warm and plain: the warmth comes from being specific and genuine, not from praise or encouragement. This summary is written before the conversation happens, so deliberately leave blank fields for the things that can only be filled in afterwards: write them as plain square brackets, for example [agreed actions], [by when], [next session date]. These blanks are intentional and the manager completes them after the session: do not invent or guess them. Keep the brackets as plain text with no asterisks or formatting. Minimum 200 words.]`;
   };
 
   const generate = async () => {
