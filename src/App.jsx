@@ -22,6 +22,8 @@ import {
   splitName,
   openNextTool,
   clearChainFromUrl,
+  carriedFrom,
+  fromLine,
 } from "./mi-session.js";
 
 const supabase = createSuiteClient({
@@ -445,6 +447,9 @@ export default function CoachIgnite() {
   // The saved session, kept so the hand-over never saves twice.
   const [savedSession, setSavedSession] = useState(null);
   const [handOverState, setHandOverState] = useState("idle");
+  // What the last tool handed over, shown exactly as the manager wrote it.
+  const [carried, setCarried] = useState(null);
+  const [carryError, setCarryError] = useState("");
   // Started in the tool rather than from the app: is this person already on the team?
   const [teamMatch, setTeamMatch] = useState(null);
   const [addedPerson, setAddedPerson] = useState(null);
@@ -489,8 +494,13 @@ export default function CoachIgnite() {
       // A session handed across from another tool. Feedback sends the
       // development point here so the coaching starts from it.
       const from = await loadSession(supabase, sourceSessionIdFromUrl());
+      if (!cancelled && !from && sourceSessionIdFromUrl()) {
+        setCarryError("The work this came from could not be loaded, so nothing was carried over.");
+      }
       if (!cancelled && from) {
         setFromSession(from);
+        const c = carriedFrom(from);
+        setCarried({ ...c, from });
         // The manager's own notes, not the letter written from them: the letter carries a
         // salutation and a sign-off, and the coaching needs the facts behind it.
         const notes = from.inputs?.inputText || from.inputs?.taskDescription || "";
@@ -500,7 +510,7 @@ export default function CoachIgnite() {
         setForm(prev => ({
           ...prev,
           context: prev.context || note,
-          coachingTopic: prev.coachingTopic || (from.title ? `Following ${from.title}` : ""),
+          coachingTopic: prev.coachingTopic || c.subject || "",
         }));
       }
 
@@ -844,6 +854,22 @@ DEVELOPMENT_SUMMARY: [A post-session summary written for ${form.personName} to r
           <h2 style={{ fontSize: 20, fontWeight: 600, letterSpacing: "-0.01em", color: COLORS.navy, margin: "0 0 24px", fontFamily: FONT.sans }}>
             The coaching situation
           </h2>
+          {carryError && (
+            <p role="alert" style={{ fontSize: 14, lineHeight: "20px", color: COLORS.navy, background: "#fff3e0", borderRadius: 10, padding: "10px 14px", margin: "0 0 20px", fontFamily: FONT.sans }}>{carryError}</p>
+          )}
+          {carried && (
+            <div style={{ background: "#eef2f6", borderRadius: 10, padding: "14px 18px", margin: "0 0 24px", fontFamily: FONT.sans }}>
+              {carried.from.person_id
+                ? <a href={personRecordUrl(carried.from.person_id)} style={{ fontSize: 13, fontWeight: 600, color: COLORS.navy, textUnderlineOffset: 4 }}>{fromLine(carried.from, person?.first_name)}</a>
+                : <span style={{ fontSize: 13, fontWeight: 600, color: COLORS.navy }}>{fromLine(carried.from, person?.first_name)}</span>}
+              {carried.items.map(([k, v]) => (
+                <div key={k} style={{ marginTop: 10 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: COLORS.muted }}>{k}</div>
+                  <div style={{ fontSize: 14, lineHeight: "20px", color: COLORS.navyMid, whiteSpace: "pre-wrap" }}>{v}</div>
+                </div>
+              ))}
+            </div>
+          )}
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "0 20px" }}>
             <TextField label="Your name" value={form.managerName} onChange={f("managerName")} placeholder="Your name" required />
