@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import MethodLink from "./MethodLink.jsx";
 
 // The way back to the app, from the header and from the end of every result.
 const DASHBOARD_URL = "https://app.management-ignition.com/";
@@ -815,6 +816,7 @@ DEVELOPMENT_SUMMARY: [A post-session summary written for ${form.personName} to r
           </div>
           <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
             <a href={DASHBOARD_URL} style={{ background: "none", border: "none", color: COLORS.navyMid, fontSize: 14, fontWeight: 500, cursor: "pointer", padding: "8px 6px", fontFamily: FONT.sans, textDecoration: "none" }}>Back to dashboard</a>
+            <MethodLink slug="coaching" style={{ background: "none", border: "none", color: COLORS.navyMid, fontSize: 14, fontWeight: 500, cursor: "pointer", padding: "8px 6px", fontFamily: FONT.sans }} />
             <button onClick={() => setShowHistory(true)} style={{ background: "none", border: "none", color: COLORS.navyMid, fontSize: 14, fontWeight: 500, cursor: "pointer", padding: "8px 6px", fontFamily: FONT.sans }}>History</button>
             {user ? (
               <>
