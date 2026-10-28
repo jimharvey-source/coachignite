@@ -20,6 +20,8 @@ import {
   createPerson,
   personRecordUrl,
   splitName,
+  openNextTool,
+  clearChainFromUrl,
 } from "./mi-session.js";
 
 const supabase = createSuiteClient({
@@ -440,6 +442,9 @@ export default function CoachIgnite() {
   const [result, setResult] = useState(null);
   const [person, setPerson] = useState(null);
   const [saveState, setSaveState] = useState("idle");
+  // The saved session, kept so the hand-over never saves twice.
+  const [savedSession, setSavedSession] = useState(null);
+  const [handOverState, setHandOverState] = useState("idle");
   // Started in the tool rather than from the app: is this person already on the team?
   const [teamMatch, setTeamMatch] = useState(null);
   const [addedPerson, setAddedPerson] = useState(null);
@@ -665,7 +670,7 @@ DEVELOPMENT_SUMMARY: [A post-session summary written for ${form.personName} to r
     finally { setLoading(false); }
   };
 
-  const resetAll = () => { setSaveState("idle"); setAddedPerson(null);
+  const resetAll = () => { setSaveState("idle"); setSavedSession(null); clearChainFromUrl(); setAddedPerson(null);
     setTopicCheck(null); setSharpenedTopic(""); setTopicAccepted(false);
     setResult(null); window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -700,7 +705,7 @@ DEVELOPMENT_SUMMARY: [A post-session summary written for ${form.personName} to r
     }
     setPerson(target);
 
-    const { error: saveError } = await saveToolSession(supabase, {
+    const { data: savedRow, error: saveError } = await saveToolSession(supabase, {
       tool: "coach",
       personId: target.id,
       sourceSessionId: fromSession?.id || null,
@@ -719,9 +724,35 @@ DEVELOPMENT_SUMMARY: [A post-session summary written for ${form.personName} to r
     if (saveError) {
       setSaveState("idle");
       setError("That could not be saved to the person record.");
-      return;
+      return null;
     }
+    setSavedSession(savedRow);
     setSaveState("saved");
+    return { session: savedRow, person: target };
+  };
+
+  // A new result is a new piece of work until it is saved.
+  useEffect(() => { if (!result) { setSavedSession(null); setSaveState("idle"); } }, [result]);
+
+  // The chain. Save first and confirm the id, then open the next tool with it.
+  const handOver = async () => {
+    if (handOverState !== "idle") return;
+    setHandOverState("saving");
+    let session = savedSession;
+    let target = person || teamMatch;
+    if (!session) {
+      const saved = await saveToPerson();
+      if (!saved || !saved.session?.id) { setHandOverState("idle"); return; }
+      session = saved.session;
+      target = saved.person;
+    }
+    try {
+      openNextTool("goal", { personId: target.id, fromSessionId: session.id, threadId: session.thread_id });
+    } catch (err) {
+      console.error("handOver failed:", err.message);
+      setHandOverState("idle");
+      setError("The next tool could not be opened. Your work is saved.");
+    }
   };
 
   const [downloadingPdf, setDownloadingPdf] = useState(false);
@@ -996,6 +1027,11 @@ DEVELOPMENT_SUMMARY: [A post-session summary written for ${form.personName} to r
                 {user && splitName((result?.personName || form.personName)) && (
                   <button onClick={saveToPerson} disabled={saveState !== "idle"} style={{ fontSize: 14, minHeight: 44, padding: "0 20px", background: saveState === "saved" ? COLORS.greenLight : COLORS.navy, border: saveState === "saved" ? `1px solid ${COLORS.green}` : "none", borderRadius: 10, color: saveState === "saved" ? COLORS.green : "#fff", cursor: saveState === "idle" ? "pointer" : "default", fontFamily: FONT.sans, fontWeight: 600 }}>
                     {saveState === "saved" ? `Saved to ${(person || teamMatch).first_name}'s record` : saveState === "saving" ? "Saving..." : (person || teamMatch) ? `Save to ${(person || teamMatch).first_name}'s record` : `Add ${splitName((result?.personName || form.personName)).first_name} to your team and save`}
+                  </button>
+                )}
+                {user && splitName((result?.personName || form.personName)) && (
+                  <button onClick={handOver} disabled={handOverState !== "idle" || saveState === "saving"} style={{ fontSize: 14, minHeight: 44, padding: "0 20px", background: COLORS.navy, border: "none", borderRadius: 10, color: "#fff", cursor: handOverState === "idle" ? "pointer" : "default", fontFamily: FONT.sans, fontWeight: 600, opacity: handOverState === "idle" ? 1 : 0.7 }}>
+                    {handOverState === "idle" ? `Make this ${((person || teamMatch)?.first_name) || splitName((result?.personName || form.personName)).first_name}'s next goal` : "Saving..."}
                   </button>
                 )}
                 <button onClick={downloadPdf} disabled={downloadingPdf} style={{ fontSize: 14, minHeight: 44, padding: "0 20px", background: COLORS.white, border: `1px solid ${COLORS.border}`, borderRadius: 10, color: COLORS.navy, cursor: downloadingPdf ? "default" : "pointer", fontFamily: FONT.sans, fontWeight: 600, opacity: downloadingPdf ? 0.7 : 1 }}>{downloadingPdf ? "Preparing PDF..." : (isPro ? "Download PDF" : "Download PDF (Pro)")}</button>
